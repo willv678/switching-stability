@@ -6,6 +6,10 @@ Details of commands and task status stay in `RUNBOOK.md` and `STATUS.md`.
 Read this once, then do the current week. The rest of `research/` is there when a
 week tells you to open it.
 
+Shao locked the claim on 22 Sep 2026. The paper is Loop 1, the unattended
+batch runner with a finite skill menu. The week tasks below that chase gain
+switching are paused. Current scope is `STATUS.md`.
+
 ## Is this a strong paper?
 
 The question is strong enough for a first IV paper. The manuscript is not strong

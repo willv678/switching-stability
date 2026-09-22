@@ -12,7 +12,8 @@ University of Georgia). His slides from 2026-09-22 are in `source/diagrams.pdf`.
 
 | Who | Read | Update |
 |---|---|---|
-| Anyone about to change code or launch a run | `STATUS.md`, then `FACTS.md` | `STATUS.md` when an acceptance line is actually met |
+| A new LLM session | `PITCH.md`, then the board in `STATUS.md` | `STATUS.md` row and `LOG.md` when the task is done |
+| Anyone about to change code or launch a run | `STATUS.md`, then `FACTS.md` | the board row it finished |
 | Anyone asking "what is this project" | `MAP.md` | only when the claim changes |
 | Will or Griffin, for the semester plan | `WEEKS.md` | when a week is replanned |
 | Griffin, or an agent launching rollouts | `RUNBOOK.md` | when a command in it is wrong |
@@ -22,9 +23,9 @@ Do not add another research markdown unless `STATUS.md` names the question it an
 
 ## What is current
 
-The paper is switching stability of a tracking controller whose reference comes from a
-neural policy mounted on the car. Full statement and scope: `MAP.md`. Who does what
-each week: `WEEKS.md`.
+The paper is Loop 1: an unattended batch agent with a finite skill menu, as Shao
+locked it on 22 Sep 2026. Full statement: `MAP.md`. Week plan: `WEEKS.md` (switching
+weeks are paused).
 
 This folder is its own git repo (ignored by NVlabs AlpaSim), pushed to
 https://github.com/willv678/switching-stability. New notes and harness scripts go

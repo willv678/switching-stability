@@ -5,25 +5,21 @@ paper that can exist by 15 November.
 
 ## The paper, in one paragraph
 
-An end-to-end driving stack is a tracker following a reference that a neural policy
-computes from a camera bolted to the car. Classical switched-MPC dwell time assumes
-that reference is an outside signal. Here it is not: a gain switch moves the car, the
-camera moves, VaVAM emits a different plan, and the tracker chases the new plan. The
-paper measures whether a switch that is safe under an exogenous reference becomes
-unsafe once that camera loop is closed, and what extra dwell is required. The plant
-is the **linear MPC**, because its cost can change between solves and because a
-Riccati terminal cost gives a per-mode Lyapunov candidate. The policy is VaVAM. The
-switcher in the paper is a script with a fixed schedule. An LLM, if it appears at
-all, is a later outer loop that is not allowed to violate the dwell constraint the
-script already measured.
+As locked with Shao on 22 Sep 2026. Loop 1 is the paper. An agent runs AlpaSim
+batches without a person. Each step it emits one skill from a finite menu
+(CONFIGURE, LAUNCH, RE-RUN, RESTART_CLEANUP, and the few others the menu actually
+needs) plus parameters. Preflight \(K^-\) rejects illegal skills and configs that
+must not launch. Postflight \(K^+\) reports crash, core dump, or nonsense metrics
+as a structured state, and the agent picks the next skill from that. The measured
+questions are unattended duration and whether recovery is correct. The baseline is
+the same menu with a hand-written policy. Loop 2, searching for scenarios that
+stress the driver, is the motivation paragraph. It is not a result in this
+submission. The switching-stability writeup is paused background.
 
-Working title, from `paper-switching-stability.md`: *Switching Stability of
-Supervisory Tracking Control for End-to-End Autonomous Driving with Endogenous
-Neural References*. Six pages will not fit that title's full argument. The version
-that fits is: the dwell gap, one figure of instability versus switching interval,
-and the frozen-perception ablation that shows the gap shrinks when the camera loop
-is cut. IV 2027 topics this sits under: Motion Planning and Intelligent Vehicle
-Control, End-to-End Driving Systems, Collision Avoidance and Formal Safety Guarantees.
+Working title: *Unattended Closed-Loop Driving Batches with a Constrained Recovery
+Agent*. Six pages. The result is that accepted runs are real driving data, not that
+a batch ran for a long time. IV 2027 topics this sits under: Simulations and
+Real-World Testing Methodologies, End-to-End Driving Systems.
 Call for papers: https://ieee-iv.org/2027/contributions/call-for-papers/
 
 ## Where Shao's diagram fits

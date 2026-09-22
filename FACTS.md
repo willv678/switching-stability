@@ -9,6 +9,8 @@ artifact contradicts it, and name the artifact.
 - Qwen2.5-Coder-3B on CPU exists for the old harness. It is not on the critical path.
 - IV 2027: Perth, 15–18 June 2027. Regular papers due 15 Nov 2026, at most 6 pages
   including figures and references. https://ieee-iv.org/2027/contributions/call-for-papers/
+  
+  12 GB RTX 4070 supports full 8-frame VaVAM temporal context + PyCena batch rendering simultaneously. Headroom is ~520 MiB. Do not run background LLMs or second browser sessions during runs.
 
 ## Nominal driving, one scene, CATK, zero injected delay
 
@@ -61,12 +63,26 @@ first `planner_delay_us` in the YAML and often recorded 0.
 8. Plan fault injection (lateral bias, noise, freeze, horizon truncation) is
    `src/runtime/alpasim_runtime/plan_fault_injection.py`, off unless configured.
 9. CATK weights are at `data/trafficsim-models/catk_v120` and run on CPU.
-10. Deployed VaVAM `inference.context_length` is 1. The model default in code is 8.
-    Do not describe the deployed policy as having eight frames of memory.
+10. Deployed VaVAM verified with inference.context_length=8. Fits in 12 GB VRAM (11,758 MiB used: 5.6 GB driver, 4.4 GB PyCena, ~500 MB Xorg). Requires force_gt_duration_us >= 4000000 us (4.0s) so the FrameCache collects 8 frames at 2 Hz before policy handoff. Failing to set warm-up causes empty trajectory returns and immediate collisions.
 11. `open_loop_collision` compares a plan with agents' recorded futures. It is a plan
     quality metric under replay traffic. Under CATK it is not a collision forecast.
 12. `kinematic_ideal` does not emit steering and accel. `System._kinematic_ideal_step`
     moves the ego along the plan. It is not a controller plugin in the usual sense.
+13. Nonlinear MPC does NOT support dynamic gain scheduling. Attempting to schedule gains
+    or run gain-adaptation hooks against `nonlinear_mpc` causes an immediate runtime crash:
+    `AioRpcError: StatusCode.UNKNOWN (nonlinear_mpc does not support mid-rollout gain updates)`.
+    Any experiment that switches gains, tests dwell times, or schedules weights must explicitly
+    pass `controller=linear`.
+14. VaVAM `context_length=8` and `force_gt_duration_us >= 4000000` are strictly coupled.
+    VaVAM samples camera frames at 2 Hz (500 ms). To satisfy `context_length: 8`, the driver's
+    `FrameCache` requires at least 8 × 500 ms = 4.0 s of historical frames. If
+    `force_gt_duration_us` is shorter than 4.0 s (or defaulted to 0), `main.py` logs an empty
+    trajectory response during initial steps, causing immediate control failure. Always set
+    `force_gt_duration_us=4500000` (4.5 s / 9 frames) when using `context_length=8`.
+15. When `runtime-0` crashes due to a gRPC exception (e.g., controller failure), Docker Compose
+    initiates container teardown and issues `SIGKILL` (exit code 137) to `renderer-0-1`. An exit
+    code 137 on `renderer` does not automatically mean GPU out-of-memory. Before diagnosing VRAM
+    exhaustion, inspect `runtime-0` logs to rule out upstream application exceptions.
 
 ## Prior work the paper has to sit next to
 
