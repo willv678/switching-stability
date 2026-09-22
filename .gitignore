@@ -1,0 +1,15 @@
+__pycache__/
+.pytest_cache/
+*.pyc
+.venv/
+
+# AlpaSim run artifacts (live next to this overlay, not in it)
+diag/
+autolab_experiments/
+autolab_lora_adapter/
+*.parquet
+*.usdz
+*.jsonl
+*.pt
+*.bin
+*.safetensors
