@@ -26,9 +26,11 @@ The paper is switching stability of a tracking controller whose reference comes 
 neural policy mounted on the car. Full statement and scope: `MAP.md`. Who does what
 each week: `WEEKS.md`.
 
-This folder is its own git repo (ignored by NVlabs AlpaSim). New notes and harness
-scripts go here so they publish without copying into `~/autolab-harness`. That older
-mirror is frozen. Do not develop there.
+This folder is its own git repo (ignored by NVlabs AlpaSim), pushed to
+https://github.com/willv678/switching-stability. New notes and harness scripts go
+here so they publish without copying into `~/autolab-harness`. That older mirror is
+frozen. Do not develop there. Griffin: clone or pull that repo for the week plan;
+run wizard from the AlpaSim checkout.
 
 Harness Python lives in `harness/`. Run it from the AlpaSim checkout:
 
